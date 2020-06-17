@@ -1,0 +1,19 @@
+[language_model]
+# https://huggingface.co/transformers/v2.3.0/pretrained_models.html
+transformers = bert-base-uncased
+word_embeddings =
+# https://github.com/flairNLP/flair/blob/master/resources/docs/embeddings/FLAIR_EMBEDDINGS.md
+flair_embeddings = news-X
+# "yes/no"
+bytepair_embeddings =
+# "yes/no"
+character_embeddigs =
+custom_embeddings =
+
+[data]
+
+[tasks]
+
+[methods]
+
+[sense_embeddings]
