@@ -144,15 +144,16 @@ def get_training_samples(rels, terms, lemma2synsets):
 
 if __name__ == "__main__":
     terms = {}
-    path2glosses = "C:\Work\dev\lang-resources\wordnet\WordNet-3.0\glosstag\merged"
+    cur_dir = os.getcwd()
+    path2glosses = os.path.join(cur_dir, "..\data_files\wordnet\glosses")
     for suffix in ["adj.xml", "adv.xml", "noun.xml", "verb.xml"]:
         path = os.path.join(path2glosses, suffix)
         terms.update(get_wordnet_terms(path))
-    path2rels = "C:\Work\dev\lang-resources\wordnet\\relations\All\\base-relations"
+    path2rels = os.path.join(cur_dir, "..\data_files\wordnet\\relations")
     rels = set()
     for f in os.listdir(path2rels):
         rels.update(get_wordnet_relations(os.path.join(path2rels, f)))
-    path2dict = "C:\Work\dev\lang-resources\wordnet\wn30.lex"
+    path2dict = os.path.join(cur_dir, "..\data_files\wordnet\dictionaries\wn30.lex")
     lemma2synsets, lemmapos2synsets, synset2id = get_wordnet_dict(path2dict)
     training_samples = get_training_samples(rels, terms, lemma2synsets)
     print("This is the end (my only friend, the end).")
