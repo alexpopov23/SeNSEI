@@ -1,16 +1,18 @@
 [language_model]
 # https://huggingface.co/transformers/v2.3.0/pretrained_models.html
-transformers = bert-base-uncased
-word_embeddings =
+# transformers = bert-base-uncased
+transformers =
+word_embeddings = news
 # https://github.com/flairNLP/flair/blob/master/resources/docs/embeddings/FLAIR_EMBEDDINGS.md
-flair_embeddings = news-X
+flair_embeddings =
 # "yes/no"
-bytepair_embeddings =
+bytepair_embeddings = yes
 # "yes/no"
-character_embeddigs =
+character_embeddigs = yes
 custom_embeddings =
 
 [data]
+training_samples = C:\Work\dev\lang-resources\wordnet\rels_corpus\wn_rels_1positive2negatives_CLS_WeakSupervision.pkl
 
 [tasks]
 
