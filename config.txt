@@ -6,13 +6,16 @@ word_embeddings = news
 # https://github.com/flairNLP/flair/blob/master/resources/docs/embeddings/FLAIR_EMBEDDINGS.md
 flair_embeddings =
 # "yes/no"
-bytepair_embeddings = yes
+bytepair_embeddings =
 # "yes/no"
-character_embeddigs = yes
+character_embeddigs =
 custom_embeddings =
+dropout = 0.1
+relu = yes
 
 [data]
 training_samples = C:\Work\dev\lang-resources\wordnet\rels_corpus\wn_rels_1positive2negatives_CLS_WeakSupervision.pkl
+#training_samples = /users/apopov/dev/SeNSEI/data_files/wn_rels_1positive2negatives_CLS_WeakSupervision.pkl
 
 [tasks]
 

@@ -26,7 +26,7 @@ def get_loaders(dataset, batch_size=128, split=0.01):
     devsampler = SubsetRandomSampler(dev_indices)
     trainloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=trainsampler)
     devloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=devsampler)
-    return trainloader, devloader
+    return trainloader, devloader, train_indices, dev_indices
 
 class RelDataset(Dataset):
 
@@ -59,9 +59,9 @@ class LanguageModel(torch.nn.Module):
             transformers = transformers.split(";")
             for model in transformers:
                 embeddings_stack.append(TransformerWordEmbeddings(model,
-                                                                  layers="all",
+                                                                  layers="-1",
                                                                   pooling_operation='mean',
-                                                                  use_scalar_mix=True,
+                                                                  # use_scalar_mix=True,
                                                                   fine_tune=True))
         word_embeddings = config.get("language_model", "word_embeddings")
         if word_embeddings is not "":
@@ -86,7 +86,10 @@ class LanguageModel(torch.nn.Module):
                 embeddings_stack.append(WordEmbeddings(path))
         self.lm = StackedEmbeddings(embeddings_stack)
         self.embedding_dim = self.lm.embedding_length
+        self.dropout = torch.nn.Dropout(float(config.get("language_model", "dropout")))
         self.classify = torch.nn.Linear(self.embedding_dim, 2)
+        if config.get("language_model", "relu") == "yes":
+            self.relu = torch.nn.ReLU()
 
     def forward(self, data):
         """
@@ -97,6 +100,9 @@ class LanguageModel(torch.nn.Module):
         self.lm.embed(X)
         # X = [sent[0] for sent in X]
         X = torch.stack([sentence[0].embedding for sentence in X])
+        X = self.dropout(X)
+        if self.relu is not None:
+            X = self.relu(X)
         labels = self.classify(X)
         return labels
 
